@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  # ── AuditIQ API ──────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: auditiq-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./data/auditiq.db
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-CHANGE-ME-TO-A-RANDOM-64-CHAR-STRING}
+      - JWT_ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=60
+      - REFRESH_TOKEN_EXPIRE_DAYS=7
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - MLFLOW_REGISTRY_URI=http://mlflow:5000
+      - MLFLOW_EXPERIMENT_NAME=auditiq-finetune
+      - MODEL_MAX_INPUT_TOKENS=8000
+      - DEFAULT_MODEL_NAME=auditiq-extractor
+      - CORS_ORIGINS=["http://localhost:3000","http://localhost:8000"]
+      - RATE_LIMIT_PER_MINUTE=100
+      - SEED_ADMIN_USERNAME=${SEED_ADMIN_USERNAME:-admin}
+      - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD:-AdminPassword123!}
+      - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL:-admin@auditiq.local}
+    volumes:
+      - auditiq-db:/app/data
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ── MLflow Tracking Server ─────────────────────────────────
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.16.0
+    container_name: auditiq-mlflow
+    ports:
+      - "5000:5000"
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:///mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    volumes:
+      - mlflow-data:/mlflow
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  auditiq-db:
+    driver: local
+  mlflow-data:
+    driver: local
