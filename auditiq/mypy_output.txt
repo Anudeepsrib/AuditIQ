@@ -1,0 +1,8 @@
+app\auth\service.py:12: error: Library stubs not installed for "jose"  [import-untyped]
+app\auth\service.py:12: note: Hint: "python3 -m pip install types-python-jose"
+app\auth\service.py:13: error: Library stubs not installed for "passlib.context"  [import-untyped]
+app\auth\service.py:13: note: Hint: "python3 -m pip install types-passlib"
+app\auth\service.py:13: note: (or run "mypy --install-types" to install all missing stub packages)
+app\auth\service.py:13: note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
+app\main.py:174: error: Argument 2 to "add_exception_handler" of "Starlette" has incompatible type "Callable[[Request, RateLimitExceeded], Response]"; expected "Callable[[Request, Exception], Response | Awaitable[Response]] | Callable[[WebSocket, Exception], Awaitable[None]]"  [arg-type]
+Found 3 errors in 2 files (checked 25 source files)
