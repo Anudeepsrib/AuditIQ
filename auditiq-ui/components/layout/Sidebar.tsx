@@ -62,9 +62,12 @@ export function Sidebar({ productionModel }: SidebarProps) {
     <aside className="w-64 bg-[--surface] border-r border-[--border] flex flex-col h-screen fixed left-0 top-0">
       {/* Logo */}
       <div className="p-6 border-b border-[--border]">
-        <Link href="/" className="flex items-center gap-1">
-          <span className="text-xl font-heading font-semibold text-[--text-primary]">Audit</span>
-          <span className="text-xl font-mono text-[--accent]">IQ</span>
+        <Link href="/" className="flex items-center gap-2">
+          <img 
+            src="/logo.png"
+            alt="AuditIQ" 
+            className="h-6 object-contain"
+          />
         </Link>
       </div>
 

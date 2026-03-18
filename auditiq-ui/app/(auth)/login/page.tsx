@@ -5,11 +5,12 @@ export default function LoginPage() {
     <div className="min-h-screen diagonal-grid flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         {/* Logo */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-heading font-semibold">
-            <span className="text-[--text-primary]">Audit</span>
-            <span className="text-[--accent] font-mono">IQ</span>
-          </h1>
+        <div className="text-center space-y-4">
+          <img 
+            src="/logo.png"
+            alt="AuditIQ" 
+            className="h-16 mx-auto object-contain"
+          />
           <p className="text-[--text-secondary] font-body">
             Fine-Tuned for Financial Truth.
           </p>
