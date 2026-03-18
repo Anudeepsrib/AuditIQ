@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Base — clinical dark */
+  --background: #070B11;
+  --surface: #0D1117;
+  --surface-raised: #161B22;
+  --border: #21262D;
+  --border-strong: #30363D;
+
+  /* Text */
+  --text-primary: #E6EDF3;
+  --text-secondary: #7D8590;
+  --text-tertiary: #484F58;
+
+  /* Brand — teal precision */
+  --accent: #2DD4BF;
+  --accent-hover: #14B8A6;
+  --accent-muted: rgba(45, 212, 191, 0.10);
+
+  /* ML-specific semantic colors */
+  --train: #3B82F6;
+  --validation: #A855F7;
+  --test: #F97316;
+  --baseline: #6B7280;
+  --finetuned: #2DD4BF;
+
+  /* Status */
+  --success: #3FB950;
+  --warning: #D29922;
+  --error: #F85149;
+  --info: #58A6FF;
+
+  /* Model stages */
+  --stage-production: #3FB950;
+  --stage-staging: #D29922;
+  --stage-archived: #484F58;
+
+  /* Radius */
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-text-primary font-body antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  code, pre, .font-mono {
+    @apply font-mono;
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+
+/* Diagonal grid pattern for login page */
+.diagonal-grid {
+  background-image: 
+    linear-gradient(45deg, transparent 49%, rgba(45, 212, 191, 0.03) 50%, transparent 51%),
+    linear-gradient(-45deg, transparent 49%, rgba(45, 212, 191, 0.03) 50%, transparent 51%);
+  background-size: 40px 40px;
+}
+
+/* Pulsing dot animation for live indicators */
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* Green glow for production badge */
+@keyframes production-glow {
+  0%, 100% {
+    box-shadow: 0 0 4px var(--stage-production), 0 0 8px rgba(63, 185, 80, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 8px var(--stage-production), 0 0 16px rgba(63, 185, 80, 0.5);
+  }
+}
+
+.production-glow {
+  animation: production-glow 2s ease-in-out infinite;
+}
