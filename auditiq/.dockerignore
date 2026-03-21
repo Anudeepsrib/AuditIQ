@@ -1,0 +1,14 @@
+node_modules/
+.git/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+data/
+auditiq.db
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+mlflow/
+mlruns/

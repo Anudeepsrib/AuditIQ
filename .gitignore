@@ -1,0 +1,64 @@
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Node / Next.js (auditiq-ui)
+node_modules/
+.pnp
+.pnp.js
+.next/
+out/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+coverage/
+.vercel
+
+# Python (auditiq)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Python tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+pytestdebug.log
+
+# Databases & Data
+*.db
+*.sqlite3
+auditiq.db
+data/
+mlflow/
+mlruns/
+
+# Logs
+*.log
+
+# IDE & AI Tools
+.vscode/
+.idea/
+.cursor/
+.gemini/
+.cline/
