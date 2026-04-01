@@ -1,166 +1,189 @@
-# AuditIQ
+<div align="center">
+  <img src="auditiq-ui/public/logo.png" alt="AuditIQ Logo" width="150" style="border-radius: 20%; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+  
+  <h1 style="margin-top: 0;">AuditIQ 🔍</h1>
+  
+  <p><b>"Fine-Tuned for Financial Truth."</b></p>
+  
+  <p>A production-grade, ML-driven financial document extraction platform leveraging fine-tuned transformer models for automated data extraction, classification, and compliance analysis.</p>
 
-![AuditIQ Logo](./auditiq-ui/public/logo.png)
+  <p>
+    <a href="https://github.com/Anudeepsrib/AuditIQ">
+      <img src="https://img.shields.io/github/stars/Anudeepsrib/AuditIQ?style=for-the-badge&logo=github" alt="GitHub stars" />
+    </a>
+    <a href="https://github.com/Anudeepsrib/AuditIQ">
+      <img src="https://img.shields.io/github/forks/Anudeepsrib/AuditIQ?style=for-the-badge&logo=github" alt="GitHub forks" />
+    </a>
+    <a href="https://github.com/Anudeepsrib/AuditIQ/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/Anudeepsrib/AuditIQ?style=for-the-badge" alt="License" />
+    </a>
+  </p>
 
-> **Fine-Tuned for Financial Truth**
+  <p>
+    <a href="#-core-features">Features</a> •
+    <a href="#-quick-start">Quick Start</a> •
+    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+    <a href="#-architecture">Architecture</a> •
+    <a href="#-models--fine-tuning">Models</a>
+  </p>
+  
+  <a href="https://github.com/Anudeepsrib/AuditIQ">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=Anudeepsrib&repo=AuditIQ&theme=radical&show_owner=true" alt="Readme Card" />
+  </a>
+</div>
 
-A production-grade financial document extraction platform leveraging fine-tuned transformer models for automated data extraction, classification, and analysis from financial documents.
+---
 
-## Overview
+## 🔒 Enterprise-Grade Security & Compliance
 
-AuditIQ is an end-to-end platform for ML-driven financial document processing. It combines a Next.js 14 frontend with a Python-based ML backend to provide:
+AuditIQ is engineered for environments where data integrity and auditability are non-negotiable.
 
-- **Document Extraction**: Automated field extraction from financial documents with high precision
-- **Model Registry**: Version control and deployment management for fine-tuned models
-- **Training Pipeline**: Automated fine-tuning workflows with dataset versioning
-- **Evaluation Framework**: Comprehensive metrics tracking including Going Concern Recall (GCR) gating
-- **Audit Trail**: Complete user activity logging for compliance
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🔐 JWT Authentication</h3>
+      <p>Secure token-based auth with httpOnly cookies, refresh token rotation, and configurable expiry policies.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>🛡️ Role-Based Access Control</h3>
+      <p>Granular RBAC with four tiers — Admin, ML Engineer, Analyst, and Auditor — enforced at both API and UI middleware layers.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>📜 Immutable Audit Trail</h3>
+      <p>Every user action, model promotion, and inference request is logged to a tamper-evident audit log for full regulatory compliance.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>⚡ Rate Limiting</h3>
+      <p>Built-in API rate limiting via SlowAPI to prevent abuse and ensure fair resource allocation across tenants.</p>
+    </td>
+  </tr>
+</table>
 
-## Tech Stack
+---
 
-### Frontend
-- **Framework**: Next.js 14 (App Router, React Server Components)
-- **Language**: TypeScript (Strict mode)
-- **Styling**: Tailwind CSS with CSS custom properties
-- **State Management**: Zustand (client), React Query (server)
-- **Forms**: React Hook Form + Zod validation
-- **UI Components**: shadcn/ui
-- **Icons**: Lucide React
-- **Fonts**: IBM Plex Mono, Syne, Inter
+## ✨ Core Features
 
-### Backend
-- **API**: FastAPI (Python)
-- **ML**: PyTorch, Transformers, PEFT/LoRA
-- **Database**: PostgreSQL
-- **Vector Store**: Pinecone
-- **Storage**: S3-compatible object storage
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <b>📄 Document Extraction</b><br/>
+      Automated high-precision field extraction from financial documents using fine-tuned transformer models with token-level confidence scoring.
+    </td>
+    <td width="33%" valign="top">
+      <b>🗂️ Model Registry</b><br/>
+      Full lifecycle management with stage transitions (Dev → Staging → Production), version control, and MLflow integration.
+    </td>
+    <td width="33%" valign="top">
+      <b>🏋️ Training Pipeline</b><br/>
+      Automated fine-tuning workflows with PEFT/LoRA, dataset versioning, and hyperparameter tracking — all managed through the UI.
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <b>📊 Evaluation Framework</b><br/>
+      Comprehensive metrics dashboard with the critical <b>Going Concern Recall (GCR) Gate</b> — requiring 95% recall before production promotion.
+    </td>
+    <td width="33%" valign="top">
+      <b>🎨 Premium Dark UI</b><br/>
+      A clinical, purpose-built interface with Syne + IBM Plex Mono typography, teal accent system, and progress ring visualizations.
+    </td>
+    <td width="33%" valign="top">
+      <b>🔍 Intelligent Classification</b><br/>
+      Multi-class document classification with vector embeddings via Pinecone for semantic search and similarity matching.
+    </td>
+  </tr>
+</table>
 
-## Project Structure
+---
 
-```
-AuditIQ/
-├── auditiq-ui/                 # Next.js frontend
-│   ├── app/                    # App Router pages
-│   │   ├── (auth)/             # Auth route group (login)
-│   │   ├── (dashboard)/          # Dashboard route group
-│   │   │   ├── inference/        # Document extraction UI
-│   │   │   ├── models/           # Model registry
-│   │   │   ├── training/         # Training pipeline
-│   │   │   ├── dataset/          # Dataset management
-│   │   │   ├── evaluations/      # Evaluation dashboard
-│   │   │   ├── audit/            # Audit log
-│   │   │   └── settings/         # Settings & user management
-│   │   ├── api/                  # API routes (auth)
-│   │   ├── globals.css           # Global styles + CSS variables
-│   │   ├── layout.tsx            # Root layout
-│   │   └── providers.tsx         # React Query + Sonner providers
-│   ├── components/
-│   │   ├── layout/               # Sidebar, Topbar, PageHeader
-│   │   ├── auth/                 # LoginForm
-│   │   ├── inference/            # ExtractionForm, ResultPanel, etc.
-│   │   ├── models/               # ModelRegistryTable, ModelStageBadge
-│   │   └── ui/                   # Button, Input, Label, etc.
-│   ├── lib/
-│   │   ├── api/                  # Axios client + API functions
-│   │   ├── hooks/                # React Query hooks
-│   │   ├── stores/               # Zustand stores
-│   │   ├── types/                # TypeScript interfaces
-│   │   └── utils/                # Helper functions
-│   ├── middleware.ts             # RBAC protection
-│   ├── tailwind.config.ts
-│   ├── tsconfig.json
-│   └── package.json
-└── backend/                      # Python FastAPI backend (separate)
-```
+## 🚀 Quick Start
 
-## Getting Started
+Get up and running locally in under 5 minutes.
 
-### Prerequisites
-- Node.js 18+ 
-- npm or pnpm
-- Backend API running (see backend README)
+### 1. Prerequisites
+- **Node.js** 18+
+- **Python** 3.11+
+- **SQLite** (bundled) or PostgreSQL
 
-### Installation
-
+### 2. Clone & Bootstrap
 ```bash
-# Navigate to frontend directory
-cd auditiq-ui
+git clone https://github.com/Anudeepsrib/AuditIQ.git
+cd AuditIQ
 
-# Install dependencies
+# ── Backend Setup ──
+cd auditiq
+python -m venv venv
+
+# macOS/Linux:
+source venv/bin/activate
+# Windows:
+.\venv\Scripts\activate
+
+pip install -r requirements.api.txt
+cp .env.example .env
+# Edit .env with your JWT secret and config
+
+# ── Frontend Setup ──
+cd ../auditiq-ui
 npm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Edit .env.local with your API URL
 ```
 
-### Environment Variables
+### 3. Launch
+Launch two terminal windows to start the backend engine and frontend interface.
 
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
-
-### Development
-
+**Terminal 1 — FastAPI Backend:**
 ```bash
-# Run dev server
+cd auditiq
+source venv/bin/activate  # Windows: .\venv\Scripts\activate
+python -m uvicorn app.main:app --reload
+```
+
+**Terminal 2 — Next.js Frontend:**
+```bash
+cd auditiq-ui
 npm run dev
-
-# Open http://localhost:3000
 ```
 
-### Build
+Open [http://localhost:3000](http://localhost:3000) to begin processing documents.
 
-```bash
-npm run build
-```
+---
 
-## Features
+## 🛠️ Tech Stack
 
-### Role-Based Access Control (RBAC)
+<table>
+  <tr>
+    <th width="50%">Frontend (App Router)</th>
+    <th width="50%">Backend (ML Engine)</th>
+  </tr>
+  <tr>
+    <td valign="top">
+      <ul>
+        <li><b>Framework:</b> Next.js 14 (App Router, RSC)</li>
+        <li><b>Styling:</b> Tailwind CSS + shadcn/ui</li>
+        <li><b>State:</b> Zustand (client) + TanStack Query (server)</li>
+        <li><b>Forms:</b> React Hook Form + Zod</li>
+        <li><b>Charts:</b> Recharts</li>
+        <li><b>Language:</b> TypeScript (Strict)</li>
+      </ul>
+    </td>
+    <td valign="top">
+      <ul>
+        <li><b>API:</b> FastAPI (Python 3.11+)</li>
+        <li><b>ML:</b> PyTorch + Transformers + PEFT/LoRA</li>
+        <li><b>Database:</b> SQLAlchemy + Alembic</li>
+        <li><b>Tracking:</b> MLflow</li>
+        <li><b>Vector Store:</b> Pinecone</li>
+        <li><b>Logging:</b> Structlog</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-| Role | Permissions |
-|------|-------------|
-| **Admin** | Full access to all features |
-| **ML Engineer** | Models, Training, Dataset, Evaluations |
-| **Analyst** | Inference, Models (read-only), Evaluations (read-only) |
-| **Auditor** | Audit Log, Models (read-only), Evaluations (read-only) |
+---
 
-### Going Concern Recall (GCR) Gate
-
-A critical safety mechanism requiring **95% recall** on the going_concern_risk field before a model can be promoted to production. This gate is prominently displayed throughout the model registry UI.
-
-### Key UI Components
-
-- **Inference Interface**: Real-time document extraction with token counting and model selection
-- **Model Registry**: Version management with stage transitions (dev → staging → production)
-- **Progress Rings**: Visual recall indicators with color-coded thresholds
-- **Session History**: Track inference requests during active sessions
-
-## Design System
-
-### Color Palette
-- **Background**: `#0D1117` (Dark clinical)
-- **Surface**: `#161B22`
-- **Accent**: `#00D4AA` (Teal)
-- **Success**: `#3B9C5A`
-- **Error**: `#F85149`
-
-### Typography
-- **Headings**: Syne (Sans-serif)
-- **Body**: Inter (Sans-serif)
-- **Monospace**: IBM Plex Mono (Metrics, code)
-
-## API Integration
-
-The frontend communicates with a FastAPI backend via:
-
-- **Authentication**: JWT tokens in httpOnly cookies
-- **Document Processing**: `/api/v1/inference/extract`, `/api/v1/inference/classify`
-- **Model Management**: `/api/v1/models/*`
-- **Training**: `/api/v1/training/*`
-
-## Architecture
+## 🏗️ Architecture
 
 ```mermaid
 flowchart TB
@@ -216,6 +239,125 @@ flowchart TB
 
 ---
 
-<p align="center">
-  <strong>AuditIQ</strong> — Fine-Tuned for Financial Truth
-</p>
+## 🧠 Models & Fine-Tuning
+
+AuditIQ uses fine-tuned transformer models optimized for financial document understanding. The **Going Concern Recall (GCR) Gate** ensures no model reaches production without achieving **≥ 95% recall** on critical risk fields.
+
+| Stage | Description | GCR Requirement |
+|-------|-------------|-----------------|
+| **🔧 Dev** | Active development & experimentation | None |
+| **🧪 Staging** | Pre-production validation & testing | ≥ 90% |
+| **🚀 Production** | Live inference endpoint | **≥ 95%** |
+
+---
+
+## 👥 Role-Based Access Control
+
+| Role | Inference | Models | Training | Datasets | Evaluations | Audit Log | Settings |
+|------|:---------:|:------:|:--------:|:--------:|:-----------:|:---------:|:--------:|
+| **Admin** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **ML Engineer** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Analyst** | ✅ | 👁️ | ❌ | ❌ | 👁️ | ❌ | ❌ |
+| **Auditor** | ❌ | 👁️ | ❌ | ❌ | 👁️ | ✅ | ❌ |
+
+<sub>✅ Full Access &nbsp;|&nbsp; 👁️ Read-Only &nbsp;|&nbsp; ❌ No Access</sub>
+
+---
+
+## 🎨 Design System
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>Color Palette</h3>
+      <ul>
+        <li><b>Background:</b> <code>#0D1117</code> (Dark clinical)</li>
+        <li><b>Surface:</b> <code>#161B22</code></li>
+        <li><b>Accent:</b> <code>#00D4AA</code> (Teal)</li>
+        <li><b>Success:</b> <code>#3B9C5A</code></li>
+        <li><b>Error:</b> <code>#F85149</code></li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h3>Typography</h3>
+      <ul>
+        <li><b>Headings:</b> Syne (Sans-serif)</li>
+        <li><b>Body:</b> Inter (Sans-serif)</li>
+        <li><b>Monospace:</b> IBM Plex Mono (Metrics, code)</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+---
+
+## ⚙️ Configuration
+
+Your instance can be customized entirely via the `auditiq/.env` file:
+
+```env
+# App
+APP_NAME=AuditIQ
+APP_VERSION=0.1.0
+DEBUG=false
+
+# Database (SQLite for dev, PostgreSQL for production)
+DATABASE_URL=sqlite:///./auditiq.db
+
+# JWT Authentication (CHANGE IN PRODUCTION!)
+JWT_SECRET_KEY=CHANGE-ME-TO-A-RANDOM-64-CHAR-STRING
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+
+# MLflow Tracking
+MLFLOW_TRACKING_URI=http://localhost:5000
+
+# CORS Origins
+CORS_ORIGINS=["http://localhost:3000","http://localhost:8000"]
+
+# Rate Limiting
+RATE_LIMIT_PER_MINUTE=100
+```
+
+---
+
+## 📂 Project Structure
+
+```
+AuditIQ/
+├── auditiq/                      # Python FastAPI backend
+│   ├── app/                      # Application source
+│   ├── alembic/                  # Database migrations
+│   ├── tests/                    # Backend test suite
+│   ├── requirements.api.txt      # Python dependencies
+│   ├── Dockerfile.api            # Container definition
+│   └── docker-compose.yml        # Multi-service orchestration
+│
+├── auditiq-ui/                   # Next.js 14 frontend
+│   ├── app/                      # App Router pages
+│   │   ├── (auth)/               # Auth route group (login)
+│   │   └── (dashboard)/          # Dashboard routes
+│   │       ├── inference/        # Document extraction UI
+│   │       ├── models/           # Model registry
+│   │       ├── training/         # Training pipeline
+│   │       ├── dataset/          # Dataset management
+│   │       ├── evaluations/      # Evaluation dashboard
+│   │       ├── audit/            # Audit log
+│   │       └── settings/         # Settings & user management
+│   ├── components/               # Reusable React components
+│   ├── lib/                      # Utilities, hooks, stores, types
+│   └── middleware.ts             # RBAC route protection
+│
+└── README.md
+```
+
+---
+
+## ⚠️ Disclaimer
+**Professional Use Only:** AuditIQ is an engineering project for automated financial document processing. It does **not** replace professional auditing services, certified financial analysis, or regulatory compliance consulting. Users should verify all extracted data against source documents before relying on outputs for decision-making.
+
+---
+
+<div align="center">
+  <p>Built with ❤️ for Financial Truth.</p>
+</div>
