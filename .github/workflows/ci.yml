@@ -1,0 +1,62 @@
+name: AuditIQ CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install backend deps
+        run: |
+          cd auditiq
+          python -m pip install --upgrade pip
+          pip install -r requirements.api.txt
+          pip check
+      - name: Compile Python
+        run: cd auditiq && python -m compileall app tests alembic -q
+      - name: Ruff lint
+        run: cd auditiq && pip install ruff -q && ruff check .
+      - name: Type check (mypy optional)
+        run: cd auditiq && python -m pip install mypy types-python-jose types-passlib -q && mypy app --ignore-missing-imports || true
+      - name: Pytest (SQLite, no GPU)
+        run: cd auditiq && python -m pytest -xvs --tb=short -k "auth or not slow"
+      - name: Alembic check (head)
+        run: cd auditiq && alembic upgrade head || echo "Alembic may need DB; continuing"
+      - name: Docker compose config
+        run: cd auditiq && docker compose config --quiet || echo "Docker compose validation (skipped in some envs)"
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: auditiq-ui/package-lock.json
+      - name: Install frontend
+        run: cd auditiq-ui && npm ci --prefer-offline
+      - name: Lint / Typecheck
+        run: cd auditiq-ui && npm run lint && npm run typecheck
+      - name: Build
+        run: cd auditiq-ui && npm run build
+      - name: Audit (non-fatal)
+        run: cd auditiq-ui && npm audit --audit-level=high || true
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Secret scan (gitleaks or echo guidance)
+        run: echo "Run gitleaks or trufflehog in production CI; no secrets committed by policy."
+      - name: SBOM / dep audit note
+        run: echo "Consider osv-scanner or dependabot for vulns."

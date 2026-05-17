@@ -4,7 +4,7 @@ import { jwtVerify } from 'jose';
 import type { JWTPayload } from '@/lib/types/auth';
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'your-secret-key'
+  process.env.JWT_SECRET_KEY || process.env.JWT_SECRET || 'dev-only-insecure-change-me'
 );
 
 // Public routes that don't require authentication
@@ -60,10 +60,11 @@ export async function middleware(request: NextRequest) {
       }
     }
 
-    // Add user info to request headers for downstream use
+    // Add user info to request headers for downstream use (email may be absent in some tokens)
     const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-user-id', jwtPayload.sub);
-    requestHeaders.set('x-user-email', jwtPayload.email);
+    const p = jwtPayload as Record<string, any>;
+    requestHeaders.set('x-user-id', String(p.sub || p.user_id || ''));
+    requestHeaders.set('x-user-email', String(p.email || ''));
     requestHeaders.set('x-user-role', userRole);
 
     return NextResponse.next({

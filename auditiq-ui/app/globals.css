@@ -55,7 +55,7 @@
     @apply font-heading;
   }
   code, pre, .font-mono {
-    @apply font-mono;
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }
 

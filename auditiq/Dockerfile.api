@@ -22,11 +22,16 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy application code
 COPY . .
 
-# Create data directory for SQLite
-RUN mkdir -p /app/data
+# Create data directory for SQLite and set ownership
+RUN mkdir -p /app/data /app/uploads /app/outputs && \
+    groupadd -r appuser && useradd -r -g appuser -u 1000 appuser && \
+    chown -R appuser:appuser /app
 
 # Expose the API port
 EXPOSE 8000
 
-# Run with uvicorn
+# Run as non-root (P1 security)
+USER appuser
+
+# Run with uvicorn (no reload in prod)
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

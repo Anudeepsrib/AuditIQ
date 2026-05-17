@@ -120,9 +120,9 @@ class TestGetMe:
         assert "hashed_password" not in data
 
     def test_get_me_no_token(self, client: TestClient):
-        """Request without token should return 403 (no credentials)."""
+        """Request without token should return 401 (no credentials)."""
         response = client.get("/auth/me")
-        assert response.status_code == 403
+        assert response.status_code == 401
 
     def test_get_me_invalid_token(self, client: TestClient):
         """Request with invalid token should return 401."""

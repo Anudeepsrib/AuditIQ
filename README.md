@@ -34,9 +34,9 @@
 
 ---
 
-## 🔒 Enterprise-Grade Security & Compliance
+## 🔒 Security & Compliance-Oriented Controls
 
-AuditIQ is engineered for environments where data integrity and auditability are non-negotiable.
+AuditIQ implements RBAC, JWT auth, rate limiting, and audit-oriented event logging as a reference design. It is **not** a certified compliance solution. Claims of regulatory compliance (SEC, SOX, SOC2, etc.) are not made. Users must independently validate all outputs.
 
 <table>
   <tr>
@@ -51,8 +51,8 @@ AuditIQ is engineered for environments where data integrity and auditability are
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <h3>📜 Immutable Audit Trail</h3>
-      <p>Every user action, model promotion, and inference request is logged to a tamper-evident audit log for full regulatory compliance.</p>
+      <h3>📜 Audit-Oriented Event Logging</h3>
+      <p>Actions are logged to an append-only table (ORM-level protection). Hash-chained tamper-evidence and cryptographic audit trail are <strong>planned</strong> but not yet implemented. See docs for status.</p>
     </td>
     <td width="50%" valign="top">
       <h3>⚡ Rate Limiting</h3>
@@ -76,8 +76,8 @@ AuditIQ is engineered for environments where data integrity and auditability are
       Full lifecycle management with stage transitions (Dev → Staging → Production), version control, and MLflow integration.
     </td>
     <td width="33%" valign="top">
-      <b>🏋️ Training Pipeline</b><br/>
-      Automated fine-tuning workflows with PEFT/LoRA, dataset versioning, and hyperparameter tracking — all managed through the UI.
+      <b>🏋️ Training Pipeline (Reference)</b><br/>
+      Stub implementation. Full PEFT/LoRA fine-tuning, dataset versioning and GPU training are planned behind feature flag ENABLE_TRAINING. Not included in base API image.
     </td>
   </tr>
   <tr>
@@ -90,8 +90,8 @@ AuditIQ is engineered for environments where data integrity and auditability are
       A clinical, purpose-built interface with Syne + IBM Plex Mono typography, teal accent system, and progress ring visualizations.
     </td>
     <td width="33%" valign="top">
-      <b>🔍 Intelligent Classification</b><br/>
-      Multi-class document classification with vector embeddings via Pinecone for semantic search and similarity matching.
+      <b>🔍 Intelligent Classification (Reference)</b><br/>
+      Heuristic + mock classification today. Vector embeddings / Pinecone integration is planned (MODEL_REGISTRY_BACKEND=mlflow or future vector store).
     </td>
   </tr>
 </table>

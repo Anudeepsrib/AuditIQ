@@ -45,17 +45,19 @@ apiClient.interceptors.response.use(
           return Promise.reject(error);
         }
 
-        // Attempt to refresh token
+        // Attempt to refresh token (backend uses snake_case)
         const response = await axios.post(`${API_URL}/auth/refresh`, {
-          refreshToken,
+          refresh_token: refreshToken,
         });
 
-        const { accessToken, refreshToken: newRefreshToken } = response.data;
-        useAuthStore.getState().setTokens(accessToken, newRefreshToken);
+        const data = response.data;
+        const newAccess = data.access_token || data.accessToken;
+        const newRefresh = data.refresh_token || data.refreshToken;
+        useAuthStore.getState().setTokens(newAccess, newRefresh);
 
         // Retry original request with new token
         if (originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         }
         return apiClient(originalRequest);
       } catch (refreshError) {

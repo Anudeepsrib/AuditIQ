@@ -62,3 +62,47 @@ mlruns/
 .cursor/
 .gemini/
 .cline/
+
+# AuditIQ generated artifacts (never commit financial docs, models, logs, data)
+# Uploads & Documents
+uploads/
+documents/
+reports/
+outputs/
+datasets/local/
+
+# ML models, checkpoints, adapters (large binary)
+checkpoints/
+models/
+adapters/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Logs & caches
+logs/
+*.log
+mypy_output.txt
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Local databases (already covered but explicit)
+*.sqlite
+*.sqlite3
+auditiq/auditiq.db
+auditiq/test_auditiq.db
+
+# Environment (except example)
+.env
+.env.local
+.env.*.local
+!auditiq/.env.example
+!auditiq-ui/.env.example
+
+# Misc
+npm.log
+docker.log

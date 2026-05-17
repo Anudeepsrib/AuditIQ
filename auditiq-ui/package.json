@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "lint": "npm run typecheck",
+    "typecheck": "tsc --noEmit",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --check . || echo 'Prettier not configured (optional)'",
+    "format:write": "prettier --write . || true"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

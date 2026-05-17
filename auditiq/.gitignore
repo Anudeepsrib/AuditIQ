@@ -60,3 +60,30 @@ mlruns/
 htmlcov/
 test_results.txt
 test_auditiq.db
+
+# Generated data & artifacts (P0: never commit financial docs or model files)
+uploads/
+documents/
+reports/
+outputs/
+datasets/local/
+mlartifacts/
+checkpoints/
+adapters/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.log
+mypy_output.txt
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Env (redundant but explicit)
+.env
+.env.local
+.env.*.local
+!.env.example

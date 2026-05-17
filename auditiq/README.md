@@ -1,6 +1,8 @@
 # AuditIQ
 
-**Production-grade fine-tuning pipeline and inference service for financial document extraction.**
+**Reference implementation of a financial document extraction platform (FastAPI + Next.js).**
+
+Fine-tuned models, full training, and production promotion gates are planned features behind flags. Current inference uses safe heuristics + schema validation. Not certified for any regulatory use. All extracted values must be verified against source documents.
 
 ## 1. Problem Statement
 

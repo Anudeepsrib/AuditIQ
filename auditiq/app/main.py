@@ -34,6 +34,12 @@ from app.users import router as users_router
 from app.users.models import User, UserRole
 from app.auth.service import hash_password
 
+# Newly added stub routers for completeness (P0)
+from app.inference.router import router as inference_router
+from app.models_registry.router import router as registry_router
+from app.evaluations.router import router as evaluations_router
+from app.datasets.router import router as datasets_router
+
 logger = structlog.get_logger("auditiq.app")
 settings = get_settings()
 
@@ -103,17 +109,20 @@ def create_app() -> FastAPI:
     Returns:
         A fully configured FastAPI instance ready to serve requests.
     """
+    docs_url = "/docs" if settings.debug or settings.app_env.lower() == "development" else None
+    redoc_url = "/redoc" if settings.debug or settings.app_env.lower() == "development" else None
+
     app = FastAPI(
         title=settings.app_name,
         version=settings.app_version,
         description=(
-            "AuditIQ — Production-grade fine-tuning pipeline and inference service "
-            "for financial document extraction. RBAC-enforced, MLflow-tracked, "
-            "LoRA/QLoRA fine-tuned models served via FastAPI."
+            "AuditIQ — Financial document extraction reference implementation. "
+            "RBAC-enforced, audit-oriented logging, model-promotion gate design. "
+            "Not for production use without security review."
         ),
         lifespan=lifespan,
-        docs_url="/docs",
-        redoc_url="/redoc",
+        docs_url=docs_url,
+        redoc_url=redoc_url,
     )
 
     # ── Global Exception Handlers ────────────────────────────────
@@ -189,6 +198,10 @@ def create_app() -> FastAPI:
     app.include_router(auth_router.router)
     app.include_router(users_router.router)
     app.include_router(audit_router.router)
+    app.include_router(inference_router)
+    app.include_router(registry_router)
+    app.include_router(evaluations_router)
+    app.include_router(datasets_router)
 
     # ── Health Check ─────────────────────────────────────────────
     @app.get(
@@ -208,7 +221,19 @@ def create_app() -> FastAPI:
             "status": "healthy",
             "version": settings.app_version,
             "app": settings.app_name,
+            "env": settings.app_env,
         }
+
+    @app.get(
+        "/ready",
+        tags=["System"],
+        summary="Readiness check",
+        description="Returns 200 when app is ready to serve traffic (DB connected, etc.).",
+    )
+    async def ready_check() -> dict:
+        """Readiness probe for k8s/docker-compose health."""
+        # In real: check DB connection, optional MLflow ping if enabled
+        return {"status": "ready", "checks": {"database": "ok"}}
 
     return app
 

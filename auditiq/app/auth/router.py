@@ -21,6 +21,7 @@ from app.auth.service import (
     verify_password,
 )
 from app.database import get_db
+from app.middleware.rate_limit import limiter
 from app.users.models import User
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -34,6 +35,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
     "and a refresh token. Access tokens expire in 60 minutes.",
     response_description="JWT token pair.",
 )
+@limiter.limit("30/minute")
 async def login(
     body: LoginRequest,
     request: Request,
@@ -68,7 +70,12 @@ async def login(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    token_data = {"sub": user.username, "role": user.role.value, "user_id": user.id}
+    token_data = {
+        "sub": user.username,
+        "role": user.role.value,
+        "user_id": user.id,
+        "email": user.email,
+    }
     access_token = create_access_token(token_data)
     refresh_token = create_refresh_token(token_data)
 
@@ -83,8 +90,10 @@ async def login(
     "without re-authenticating. The refresh token is single-use.",
     response_description="New JWT token pair.",
 )
+@limiter.limit("30/minute")
 async def refresh_token(
     body: TokenRefreshRequest,
+    request: Request,
     db: Session = Depends(get_db),
 ) -> TokenResponse:
     """Exchange a refresh token for a new access token.
@@ -127,7 +136,12 @@ async def refresh_token(
             detail={"error": "user_not_found", "message": "User not found or inactive"},
         )
 
-    token_data = {"sub": user.username, "role": user.role.value, "user_id": user.id}
+    token_data = {
+        "sub": user.username,
+        "role": user.role.value,
+        "user_id": user.id,
+        "email": user.email,
+    }
     new_access = create_access_token(token_data)
     new_refresh = create_refresh_token(token_data)
 

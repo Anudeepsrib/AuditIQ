@@ -10,6 +10,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - APP_ENV=development
       - DATABASE_URL=sqlite:///./data/auditiq.db
       - JWT_SECRET_KEY=${JWT_SECRET_KEY:-CHANGE-ME-TO-A-RANDOM-64-CHAR-STRING}
       - JWT_ALGORITHM=HS256
@@ -25,6 +26,12 @@ services:
       - SEED_ADMIN_USERNAME=${SEED_ADMIN_USERNAME:-admin}
       - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD:-AdminPassword123!}
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL:-admin@auditiq.local}
+      - UPLOAD_DIR=/app/uploads
+      - OUTPUT_DIR=/app/outputs
+      - ENABLE_TRAINING=false
+      - ENABLE_MODEL_PROMOTION=true
+      - MODEL_REGISTRY_BACKEND=local
+      - MAX_UPLOAD_MB=25
     volumes:
       - auditiq-db:/app/data
     depends_on:

@@ -17,7 +17,7 @@ import { apiClient } from '@/lib/api/client';
 import type { LoginResponse } from '@/lib/types/auth';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  username: z.string().min(1, 'Username is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -39,16 +39,43 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     try {
-      const response = await apiClient.post<LoginResponse>('/auth/login', data);
-      const { user, tokens } = response.data;
-      
-      login(user, tokens);
+      // 1. Login to backend (returns tokens in snake_case)
+      const loginRes = await apiClient.post('/auth/login', data);
+      const tokenData = loginRes.data;
+      const accessToken = tokenData.access_token || tokenData.accessToken;
+      const refreshToken = tokenData.refresh_token || tokenData.refreshToken;
+
+      if (!accessToken) {
+        throw new Error('No access token received');
+      }
+
+      // 2. Fetch full user profile using the new token (temporarily set for interceptor)
+      const meRes = await apiClient.get('/auth/me', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const user = meRes.data;
+
+      // 3. Set tokens in store (camelCase for UI)
+      login(user, { accessToken, refreshToken });
+
+      // 4. Set httpOnly cookies via Next.js proxy for middleware auth
+      try {
+        await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accessToken, refreshToken }),
+        });
+      } catch (cookieErr) {
+        console.warn('Cookie proxy failed (middleware may not protect SSR):', cookieErr);
+      }
+
       toast.success('Login successful');
-      
-      const redirectPath = getDefaultRedirect(user.role);
+
+      const redirectPath = getDefaultRedirect(user.role || 'analyst');
       router.push(redirectPath);
-    } catch (error) {
-      toast.error('Invalid email or password');
+    } catch (error: any) {
+      const msg = error?.response?.data?.detail?.message || 'Invalid username or password';
+      toast.error(msg);
     } finally {
       setIsLoading(false);
     }
@@ -57,18 +84,18 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-[--text-secondary]">
-          Email
+        <Label htmlFor="username" className="text-[--text-secondary]">
+          Username
         </Label>
         <Input
-          id="email"
-          type="email"
-          placeholder="name@company.com"
-          {...register('email')}
+          id="username"
+          type="text"
+          placeholder="admin"
+          {...register('username')}
           className="bg-[--surface] border-[--border] text-[--text-primary] placeholder:text-[--text-tertiary]"
         />
-        {errors.email && (
-          <p className="text-sm text-[--error]">{errors.email.message}</p>
+        {errors.username && (
+          <p className="text-sm text-[--error]">{errors.username.message}</p>
         )}
       </div>
 
